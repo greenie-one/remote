@@ -57,7 +57,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Create namespace
-        run: kubectl create namespace backend --dry-run=client -o yaml | kubectl apply -f -
+        run: kubectl create namespace remote --dry-run=client -o yaml | kubectl apply -f -
 
       - uses: azure/k8s-create-secret@v4
         with:
@@ -65,8 +65,8 @@ jobs:
           container-registry-username: ${{ github.actor }}
           container-registry-password: ${{ secrets.GITHUB_TOKEN }}
           secret-name: regcred
-          namespace: backend
+          namespace: remote
 
       - name: Deploy chart
         run: |
-          helm upgrade --install --namespace backend -f deployment/values-prod.yaml greenie-mvp-backend-prod ./deployment --set image.name=${{ steps.meta.outputs.tags }} --wait
+          helm upgrade --install --namespace remote -f deployment/values-prod.yaml greenie-remote-prod ./deployment --set image.name=${{ steps.meta.outputs.tags }} --wait
