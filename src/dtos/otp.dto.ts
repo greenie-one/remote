@@ -1,4 +1,4 @@
-import { IsEmail, IsEnum, IsPhoneNumber, IsString, ValidateIf } from 'class-validator';
+import { IsEmail, IsEnum, IsString, ValidateIf } from 'class-validator';
 
 export enum otpType {
   EMAIL = 'EMAIL',
@@ -8,10 +8,10 @@ export enum otpType {
 export class SendOtpDto {
   @IsEmail()
   @ValidateIf((o) => o.type === otpType.EMAIL)
-  email: string;
+  public contact: string;
 
   @ValidateIf((o) => o.type === otpType.MOBILE)
-  mobile: string;
+  public contact: string;
 
   @IsEnum(otpType)
   type: otpType;

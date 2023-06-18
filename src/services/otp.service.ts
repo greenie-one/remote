@@ -7,12 +7,12 @@ class sendOtpService {
   public async sendOtp(sendOtpDto: SendOtpDto) {
     try {
       if (sendOtpDto.type === 'EMAIL') {
-        await AuthRemote.requestOtpEmail(sendOtpDto.email, sendOtpDto.otp);
+        await AuthRemote.requestOtpEmail(sendOtpDto.contact, sendOtpDto.otp);
         return { message: 'OTP sent successfully' };
       }
 
       if (sendOtpDto.type === 'MOBILE') {
-        await AuthRemote.requestOtpMobile(sendOtpDto.mobile, sendOtpDto.otp);
+        await AuthRemote.requestOtpMobile(sendOtpDto.contact, sendOtpDto.otp);
         return { message: 'OTP sent successfully' };
       }
     } catch (error) {
