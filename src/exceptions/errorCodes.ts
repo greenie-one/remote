@@ -7,6 +7,9 @@ export enum ErrorEnum {
 
   //email
   EMAIL_NOT_SENT,
+
+  //address
+  ADDRESS_NOT_FOUND,
 }
 
 export const ErrorCodes: Record<ErrorEnum, ErrorCodes> = {
@@ -23,6 +26,11 @@ export const ErrorCodes: Record<ErrorEnum, ErrorCodes> = {
   [ErrorEnum.EMAIL_NOT_SENT]: {
     code: 'RM002',
     message: 'Failed To send Email',
+    status: 400,
+  },
+  [ErrorEnum.ADDRESS_NOT_FOUND]: {
+    code: 'RM003',
+    message: 'Address not found',
     status: 400,
   },
 };
