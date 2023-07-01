@@ -1,6 +1,15 @@
-import { IsString } from 'class-validator';
+import { IsEnum, IsObject } from 'class-validator';
+
+export enum IDTypeEnum {
+  AADHAR = 'AADHAR',
+  PAN = 'PAN',
+  DRIVING_LICENSE = 'DRIVING_LICENSE',
+}
 
 export class locationDto {
-  @IsString()
-  public address: string;
+  @IsObject()
+  public address: object;
+
+  @IsEnum(IDTypeEnum)
+  public type: IDTypeEnum;
 }
