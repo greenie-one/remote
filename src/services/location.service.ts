@@ -7,15 +7,12 @@ class locationService {
   public async getCoordinates(data: locationDto) {
     try {
       const address = data.address;
-      const key = Object.keys(address);
+      const keys = Object.keys(address);
       let addressLine = ' ';
-      console.log(key.length);
-      for (let index = 0; index < key.length; index++) {
-        if (key[index] == 'type') {
-          continue;
-        }
-        addressLine = addressLine + ` ${address[key[index]]}`;
+      for (const key of keys) {
+        addressLine = addressLine + " " + address[key];
       }
+      console.log(addressLine);
       const res = await GeolocationRemote.getCoordinates(addressLine);
       const pointCoordinates = res.features[0].geometry.coordinates;
       const boxCoordinates = res.features[0].bbox;
