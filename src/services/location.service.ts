@@ -12,7 +12,6 @@ class locationService {
       for (const key of keys) {
         addressLine = addressLine + " " + address[key];
       }
-      console.log(addressLine);
       const res = await GeolocationRemote.getCoordinates(addressLine);
       const pointCoordinates = res.features[0].geometry.coordinates;
       const boxCoordinates = res.features[0].bbox;
