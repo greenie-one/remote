@@ -6,7 +6,13 @@ import { GeolocationRemote } from '@/remote/location/geolocation.remote';
 class locationService {
   public async getCoordinates(data: locationDto) {
     try {
-      const res = await GeolocationRemote.getCoordinates(data.address);
+      const address = data.address;
+      const keys = Object.keys(address);
+      let addressLine = ' ';
+      for (const key of keys) {
+        addressLine = addressLine + " " + address[key];
+      }
+      const res = await GeolocationRemote.getCoordinates(addressLine);
       const pointCoordinates = res.features[0].geometry.coordinates;
       const boxCoordinates = res.features[0].bbox;
 
