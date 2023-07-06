@@ -11,4 +11,12 @@ export class GeolocationRemote {
     });
     return response;
   }
+
+  static async getSuggestion(partialAddress: string) {
+    const response = await HttpClient.callApi({
+      url: `https://atlas.microsoft.com/search/address/suggestions/json?api-version=1.0&subscription-key=${SUBSCRIPTION_KEY}&query=${partialAddress}`,
+      method: 'GET',
+    });
+    return response;
+  }
 }
