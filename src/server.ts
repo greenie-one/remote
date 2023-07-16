@@ -4,6 +4,7 @@ import OtpController from './controllers/otp.controller';
 import WaitlistController from './controllers/waitlist.controller';
 import RootController from './controllers/root.controller';
 import LocationController from './controllers/location.controller';
+import verificationController from './controllers/verification.controller';
 
 process.on('uncaughtException', (e) => {
   console.error(e);
@@ -17,7 +18,7 @@ process.on('unhandledRejection', (e) => {
 
 ValidateEnv();
 
-const controllers = [OtpController, WaitlistController, RootController, LocationController];
+const controllers = [OtpController, WaitlistController, RootController, LocationController, verificationController];
 
 const app = new App(controllers);
 

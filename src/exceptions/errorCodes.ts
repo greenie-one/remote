@@ -10,6 +10,9 @@ export enum ErrorEnum {
 
   //address
   ADDRESS_NOT_FOUND,
+
+  //verification
+  VERIFICATIONLINK_NOT_SENT,
 }
 
 export const ErrorCodes: Record<ErrorEnum, ErrorCodes> = {
@@ -31,6 +34,11 @@ export const ErrorCodes: Record<ErrorEnum, ErrorCodes> = {
   [ErrorEnum.ADDRESS_NOT_FOUND]: {
     code: 'RM003',
     message: 'Address not found',
+    status: 400,
+  },
+  [ErrorEnum.VERIFICATIONLINK_NOT_SENT]: {
+    code: 'RM004',
+    message: 'Failed To send Verification Link',
     status: 400,
   },
 };
