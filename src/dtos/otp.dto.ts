@@ -24,8 +24,8 @@ export class SendOtpDto {
   public contact: string;
 
   @IsEnum(otpType)
-  type: otpType;
+  public type: otpType;
 
   @IsString()
-  otp: string;
+  public otp: string;
 }
