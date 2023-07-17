@@ -1,6 +1,6 @@
 import { IsString } from 'class-validator';
 
-export class VerifyOtpDto {
+export class SendPeerLinkDTO {
   @IsString()
   public email: string;
 
@@ -14,5 +14,8 @@ export class VerifyOtpDto {
   public userName: string;
 
   @IsString()
-  public verificationLink: string;
+  public mobileVerificationLink: string;
+
+  @IsString()
+  public emailVerificationLink: string;
 }
