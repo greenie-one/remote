@@ -12,8 +12,10 @@ export default class VerificationController {
   async sendWaitlistEmail(@Body() data: SendPeerLinkDTO) {
     console.log(data);
     try {
-      verfication.sendMail(data.verifierName, data.email, data.userName, data.emailVerificationLink);
-      verfication.requestOnMobile(data.verifierName, data.userName, data.phone, data.mobileVerificationLink);
+      Promise.all([
+        verfication.sendMail(data.verifierName, data.userName, data.email, data.emailVerificationLink),
+        verfication.requestOnMobile(data.verifierName, data.userName, data.phone, data.mobileVerificationLink),
+      ]);
       return { message: 'Verification link sent' };
     } catch (error) {
       throw new HttpException(ErrorEnum.VERIFICATIONLINK_NOT_SENT);
