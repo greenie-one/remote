@@ -32,6 +32,7 @@ export class verfication {
         Body: body,
       },
     });
+    console.info(`Verification link sent to ${phone}`);
     return true;
   }
 }

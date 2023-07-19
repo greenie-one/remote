@@ -10,6 +10,7 @@ import { HttpException } from '@exceptions/httpException';
 export default class VerificationController {
   @Post('/send')
   async sendWaitlistEmail(@Body() data: SendPeerLinkDTO) {
+    console.log(data);
     try {
       verfication.sendMail(data.verifierName, data.email, data.userName, data.emailVerificationLink);
       verfication.requestOnMobile(data.verifierName, data.userName, data.phone, data.mobileVerificationLink);
