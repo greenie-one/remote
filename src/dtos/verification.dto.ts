@@ -1,4 +1,4 @@
-import { IsString, Validate, ValidatorConstraint, ValidatorConstraintInterface } from 'class-validator';
+import { IsEmail, IsString, Validate, ValidatorConstraint, ValidatorConstraintInterface } from 'class-validator';
 
 @ValidatorConstraint({ name: 'validateMobile', async: false })
 class ValidateMobile implements ValidatorConstraintInterface {
@@ -10,6 +10,7 @@ class ValidateMobile implements ValidatorConstraintInterface {
 
 export class SendPeerLinkDTO {
   @IsString()
+  @IsEmail()
   public email: string;
 
   @IsString()
