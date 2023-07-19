@@ -7,7 +7,7 @@ import { Body } from '@/utils/decorators/request';
 import { HttpException } from '@exceptions/httpException';
 
 @Controller('/verification')
-export default class verificationController {
+export default class VerificationController {
   @Post('/send')
   async sendWaitlistEmail(@Body() data: SendPeerLinkDTO) {
     try {

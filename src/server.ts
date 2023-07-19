@@ -1,10 +1,10 @@
 import { App } from '@/app';
 import { ValidateEnv } from '@utils/validateEnv';
-import OtpController from './controllers/otp.controller';
-import WaitlistController from './controllers/waitlist.controller';
-import RootController from './controllers/root.controller';
 import LocationController from './controllers/location.controller';
-import verificationController from './controllers/verification.controller';
+import OtpController from './controllers/otp.controller';
+import RootController from './controllers/root.controller';
+import VerificationController from './controllers/verification.controller';
+import WaitlistController from './controllers/waitlist.controller';
 
 process.on('uncaughtException', (e) => {
   console.error(e);
@@ -18,7 +18,7 @@ process.on('unhandledRejection', (e) => {
 
 ValidateEnv();
 
-const controllers = [OtpController, WaitlistController, RootController, LocationController, verificationController];
+const controllers = [OtpController, WaitlistController, RootController, LocationController, VerificationController];
 
 const app = new App(controllers);
 
