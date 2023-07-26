@@ -3,9 +3,18 @@ import { HttpClient } from '../generic/httpClient';
 
 const SUBSCRIPTION_KEY = env('SUBSCRIPTION_KEY');
 
+interface GetCoordinatesResponse {
+  features: Array<Feature>;
+}
+interface Feature {
+  geometry: {
+    coordinates: Array<number>;
+  };
+}
+
 export class GeolocationRemote {
-  static async getCoordinates(address: string) {
-    const response = await HttpClient.callApi({
+  static async getCoordinates(address: string): Promise<GetCoordinatesResponse> {
+    const response: GetCoordinatesResponse = await HttpClient.callApi({
       url: `https://atlas.microsoft.com/geocode?api-version=2022-09-01-preview&subscription-key=${SUBSCRIPTION_KEY}&addressLine=${address}`,
       method: 'GET',
     });

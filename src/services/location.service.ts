@@ -5,14 +5,17 @@ import { GeolocationRemote } from '@/remote/location/geolocation.remote';
 
 class locationService {
   public async getCoordinates(data: locationDto) {
+    const address = data.address;
     try {
-      const address = data.address;
       const res = await GeolocationRemote.getCoordinates(address);
+      if (res.features.length === 0) {
+        throw new HttpException(ErrorEnum.ADDRESS_NOT_FOUND);
+      }
       const pointCoordinates = res.features[0].geometry.coordinates;
-
       return { long: pointCoordinates[0], lat: pointCoordinates[1] };
     } catch (error) {
-      throw new HttpException(ErrorEnum.ADDRESS_NOT_FOUND);
+      console.error(error);
+      throw new HttpException(ErrorEnum.SERVER_ERROR, error.message);
     }
   }
 

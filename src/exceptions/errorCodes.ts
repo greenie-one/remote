@@ -13,6 +13,9 @@ export enum ErrorEnum {
 
   //verification
   VERIFICATIONLINK_NOT_SENT,
+
+  // server error
+  SERVER_ERROR,
 }
 
 export const ErrorCodes: Record<ErrorEnum, ErrorCodes> = {
@@ -40,5 +43,10 @@ export const ErrorCodes: Record<ErrorEnum, ErrorCodes> = {
     code: 'RM004',
     message: 'Failed To send Verification Link',
     status: 400,
+  },
+  [ErrorEnum.SERVER_ERROR]: {
+    code: 'RM005',
+    message: 'Server Error: %s',
+    status: 500,
   },
 };
