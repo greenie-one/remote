@@ -10,13 +10,22 @@ class locationService {
       const keys = Object.keys(address);
       let addressLine = ' ';
       for (const key of keys) {
-        addressLine = addressLine + " " + address[key];
+        addressLine = addressLine + ' ' + address[key];
       }
-      const res = await GeolocationRemote.getCoordinates(addressLine);
+      const res = (await GeolocationRemote.getCoordinates(addressLine)) as any;
       const pointCoordinates = res.features[0].geometry.coordinates;
       const boxCoordinates = res.features[0].bbox;
 
       return { pointCoordinates, boxCoordinates };
+    } catch (error) {
+      throw new HttpException(ErrorEnum.ADDRESS_NOT_FOUND);
+    }
+  }
+
+  public async getLocationSuggestion(partialAddress: string) {
+    try {
+      const res = await GeolocationRemote.getSuggestion(partialAddress);
+      return res;
     } catch (error) {
       throw new HttpException(ErrorEnum.ADDRESS_NOT_FOUND);
     }
