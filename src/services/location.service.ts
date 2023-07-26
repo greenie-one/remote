@@ -7,16 +7,10 @@ class locationService {
   public async getCoordinates(data: locationDto) {
     try {
       const address = data.address;
-      const keys = Object.keys(address);
-      let addressLine = ' ';
-      for (const key of keys) {
-        addressLine = addressLine + ' ' + address[key];
-      }
-      const res = (await GeolocationRemote.getCoordinates(addressLine)) as any;
+      const res = await GeolocationRemote.getCoordinates(address);
       const pointCoordinates = res.features[0].geometry.coordinates;
-      const boxCoordinates = res.features[0].bbox;
 
-      return { pointCoordinates, boxCoordinates };
+      return { long: pointCoordinates[0], lat: pointCoordinates[1] };
     } catch (error) {
       throw new HttpException(ErrorEnum.ADDRESS_NOT_FOUND);
     }
