@@ -17,14 +17,17 @@ class sendOtpService {
   public async sendOtp(sendOtpDto: SendOtpDto) {
     try {
       const otp = this.getOtp()
-      if (sendOtpDto.type === 'EMAIL') {
-        await AuthRemote.requestOtpEmail(sendOtpDto.contact, otp);
-        return { message: 'OTP sent successfully' };
-      }
 
-      if (sendOtpDto.type === 'MOBILE') {
-        await AuthRemote.requestOtpMobile(sendOtpDto.contact, otp);
-        return { message: 'OTP sent successfully' };
+      if (env('APP_ENV') !== 'production') {
+        if (sendOtpDto.type === 'EMAIL') {
+          await AuthRemote.requestOtpEmail(sendOtpDto.contact, otp);
+          return { message: 'OTP sent successfully' };
+        }
+
+        if (sendOtpDto.type === 'MOBILE') {
+          await AuthRemote.requestOtpMobile(sendOtpDto.contact, otp);
+          return { message: 'OTP sent successfully' };
+        }
       }
 
       return { otp }
