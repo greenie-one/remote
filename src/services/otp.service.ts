@@ -18,7 +18,7 @@ class sendOtpService {
     try {
       const otp = this.getOtp()
 
-      if (env('APP_ENV') !== 'production') {
+      if (env('APP_ENV') === 'production') {
         if (sendOtpDto.type === 'EMAIL') {
           AuthRemote.requestOtpEmail(sendOtpDto.contact, otp).catch(console.error);
         }
