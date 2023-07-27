@@ -20,11 +20,11 @@ class sendOtpService {
 
       if (env('APP_ENV') !== 'production') {
         if (sendOtpDto.type === 'EMAIL') {
-          await AuthRemote.requestOtpEmail(sendOtpDto.contact, otp);
+          AuthRemote.requestOtpEmail(sendOtpDto.contact, otp).catch(console.error);
         }
 
         if (sendOtpDto.type === 'MOBILE') {
-          await AuthRemote.requestOtpMobile(sendOtpDto.contact, otp);
+          AuthRemote.requestOtpMobile(sendOtpDto.contact, otp).catch(console.error);
         }
       }
 
