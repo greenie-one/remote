@@ -13,8 +13,8 @@ export default class VerificationController {
     console.log(data);
     try {
       Promise.all([
-        verfication.sendMail(data.verifierName, data.userName, data.email, data.emailVerificationLink),
-        verfication.requestOnMobile(data.verifierName, data.userName, data.phone, data.mobileVerificationLink),
+        verfication.sendMail(data.verifierName, data.userName, data.companyName, data.email, data.emailVerificationLink),
+        verfication.requestOnMobile(data.verifierName, data.userName, data.companyName, data.phone, data.mobileVerificationLink),
       ]);
       return { message: 'Verification link sent' };
     } catch (error) {

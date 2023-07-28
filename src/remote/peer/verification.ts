@@ -8,8 +8,8 @@ const AUTH_TOKEN = env('TWILIO_AUTH_TOKEN');
 const FROM_MOBILE = env('TWILIO_FROM_MOBILE');
 
 export class verfication {
-  static async sendMail(firstName: string, userName: string, email: string, verificationLink: string) {
-    const html = await ejs.renderFile('templates/email/peerVerfication.ejs', { firstName, userName, verificationLink });
+  static async sendMail(firstName: string, userName: string, companyName: string, email: string, verificationLink: string) {
+    const html = await ejs.renderFile('templates/email/peerVerfication.ejs', { firstName, userName, verificationLink, companyName });
     return mailer.sendMail({
       to: email,
       subject: 'Verify Work Experience',
@@ -17,8 +17,8 @@ export class verfication {
     });
   }
 
-  static async requestOnMobile(firstName: string, userName: string, phone: string, verificationLink: string) {
-    const body = await ejs.renderFile('templates/sms/verificationTemplate.ejs', { firstName, userName, verificationLink });
+  static async requestOnMobile(firstName: string, userName: string, companyName: string, phone: string, verificationLink: string) {
+    const body = await ejs.renderFile('templates/sms/verificationTemplate.ejs', { firstName, userName, verificationLink, companyName });
     await HttpClient.callApi({
       url: `https://api.twilio.com/2010-04-01/Accounts/${ACCOUNT_SID}/Messages.json`,
       method: 'POST',
