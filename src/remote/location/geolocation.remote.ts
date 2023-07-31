@@ -15,7 +15,7 @@ interface Feature {
 export class GeolocationRemote {
   static async getCoordinates(address: string): Promise<GetCoordinatesResponse> {
     const response: GetCoordinatesResponse = await HttpClient.callApi({
-      url: `https://atlas.microsoft.com/geocode?api-version=2022-09-01-preview&subscription-key=${SUBSCRIPTION_KEY}&addressLine=${address}`,
+      url: `https://atlas.microsoft.com/geocode?api-version=2022-09-01-preview&subscription-key=${SUBSCRIPTION_KEY}&addressLine=${encodeURIComponent(address)}`,
       method: 'GET',
     });
     return response;
