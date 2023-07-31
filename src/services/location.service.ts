@@ -24,6 +24,7 @@ class locationService {
       const res = await GeolocationRemote.getSuggestion(partialAddress);
       return res;
     } catch (error) {
+      console.error(error)
       throw new HttpException(ErrorEnum.ADDRESS_NOT_FOUND);
     }
   }
