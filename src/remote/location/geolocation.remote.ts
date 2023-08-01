@@ -23,9 +23,8 @@ export class GeolocationRemote {
 
   static async getSuggestion(partialAddress: string) {
     const response = await HttpClient.callApi({
-      url: `https://atlas.microsoft.com/search/fuzzy/json?api-version=1.0&subscription-key=${SUBSCRIPTION_KEY}&query=${encodeURIComponent(partialAddress)}&typeahead=true&countrySet=IN&limit=5`,
+      url: `https://atlas.microsoft.com/search/fuzzy/json?api-version=1.0&subscription-key=${SUBSCRIPTION_KEY}&query=${encodeURIComponent(partialAddress)}&typeahead=true&countrySet=IN&limit=5&idxSet=PAD,POI,Str,Xstr,Geo`,
       method: 'GET',
-      toJSON: true
     });
     return response;
   }
