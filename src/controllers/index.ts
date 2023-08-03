@@ -20,19 +20,30 @@ function predefinedValidation(name: string): typeof validateOrReject {
   return validateOrReject;
 }
 
-async function validate(type: ClassConstructor<unknown>, value: unknown, bodyOrQuery: 'body' | 'query') {
+function flattenErrors(error: ValidationError[]) {
+  const ret: string[] = [];
+  for (const e of error) {
+    if (e.constraints) {
+      ret.push(...Object.values(e.constraints ?? {}));
+    } else {
+      ret.push(...flattenErrors(e.children ?? []));
+    }
+  }
+  return ret;
+}
+
+async function validate(type: ClassConstructor<unknown>, value: unknown, bodyOrQuery: 'body' | 'query', isOptional = false) {
+  if (isOptional && !value) return true
   if (!value) throw new HttpException(ErrorEnum.VALIDATION_ERROR, `${bodyOrQuery} must be defined`);
 
   try {
     const dto = plainToClass(type, value);
-
     const validator = predefinedValidation(type.name);
-    await validator(dto as object);
-
+    await validator(dto as object, { whitelist: true });
     return dto;
   } catch (errors) {
-    const message = errors?.map((error: ValidationError) => Object.values(error.constraints));
-    throw new HttpException(ErrorEnum.VALIDATION_ERROR, message);
+    const message = flattenErrors(Array.isArray(errors) ? errors : [errors]);
+    throw new HttpException(ErrorEnum.VALIDATION_ERROR, message.join(', '));
   }
 }
 
@@ -66,7 +77,7 @@ export function registerControllers(fastify: FastifyInstance, controllers: Contr
               throw new HttpException(ErrorEnum.VALIDATION_ERROR, `Query ${q.queryName} is missing`);
             }
 
-            args[q.index] = await validate(q.type, query, 'query');
+            args[q.index] = await validate(q.type, query, 'query', q.isOptional);
           }
 
           for (const h of hasHeaders) {
