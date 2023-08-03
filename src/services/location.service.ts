@@ -1,7 +1,7 @@
 import { locationDto } from '@/dtos/location.dto';
 import { ErrorEnum } from '@/exceptions/errorCodes';
 import { HttpException } from '@/exceptions/httpException';
-import { GeolocationRemote } from '@/remote/location/geolocation.remote';
+import { GeolocationRemote, Location } from '@/remote/location/geolocation.remote';
 
 class locationService {
   public async getCoordinates(data: locationDto) {
@@ -19,9 +19,9 @@ class locationService {
     }
   }
 
-  public async getLocationSuggestion(partialAddress: string) {
+  public async getLocationSuggestion(partialAddress: string, locationBias: Location) {
     try {
-      const res = await GeolocationRemote.getSuggestion(partialAddress);
+      const res = await GeolocationRemote.getSuggestion(partialAddress, locationBias);
       return res;
     } catch (error) {
       console.error(error)
