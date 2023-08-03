@@ -11,7 +11,7 @@ export default class LocationController {
     return LocationService.getCoordinates(data);
   }
   @Get('/suggestion')
-  async getSuggestion(@Query('address') address: string, @Query('latitude') latitude: number, @Query('longitude') longitude: number) {
+  async getSuggestion(@Query('address') address: string, @Query('latitude', true) latitude: number, @Query('longitude', true) longitude: number) {
     return LocationService.getLocationSuggestion(address, {
       latitude, longitude
     });
