@@ -34,9 +34,7 @@ export function mockFetch() {
     if (resp) {
       console.debug('Responding with mock data for', url);
       const data = new Response(Buffer.from(JSON.stringify(resp.response)), {
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: resp.headers,
       });
 
       return data;
