@@ -13,7 +13,8 @@ export default class LocationController {
   @Get('/suggestion')
   async getSuggestion(@Query('address') address: string, @Query('latitude', true) latitude: number, @Query('longitude', true) longitude: number) {
     return LocationService.getLocationSuggestion(address, {
-      latitude, longitude
+      latitude,
+      longitude,
     });
   }
 }
