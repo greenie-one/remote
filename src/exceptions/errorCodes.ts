@@ -16,6 +16,9 @@ export enum ErrorEnum {
 
   // server error
   SERVER_ERROR,
+
+  // zoop
+  ZOOP_ERROR,
 }
 
 export const ErrorCodes: Record<ErrorEnum, ErrorCodes> = {
@@ -47,6 +50,11 @@ export const ErrorCodes: Record<ErrorEnum, ErrorCodes> = {
   [ErrorEnum.SERVER_ERROR]: {
     code: 'RM005',
     message: 'Server Error: %s',
+    status: 500,
+  },
+  [ErrorEnum.ZOOP_ERROR]: {
+    code: 'RM006',
+    message: 'Zoop Error: %s',
     status: 500,
   },
 };
