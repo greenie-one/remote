@@ -4,7 +4,7 @@ import { HttpClient } from '../generic/httpClient';
 export class PanVerification {
   static async verifyPan(panNumber: string, taskId: string): Promise<unknown> {
     return HttpClient.callApi({
-      url: 'https://test.zoop.one/api/v1/in/identity/pan/pro',
+      url: `${env('ZOOP_BASE_URL')}/api/v1/in/identity/pan/pro`,
       method: 'POST',
       headers: {
         'app-id': env('ZOOP_ID'),
