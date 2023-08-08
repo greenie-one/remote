@@ -6,17 +6,16 @@ import { AuthRemote } from '@/remote/auth/otp.remote';
 import { generateRandomNumber } from '@/utils/otp';
 
 class sendOtpService {
-
   private getOtp() {
     if (env('APP_ENV') !== 'production') {
-      return '123456'
+      return '123456';
     }
-    return generateRandomNumber().toString()
+    return generateRandomNumber().toString();
   }
 
   public async sendOtp(sendOtpDto: SendOtpDto) {
     try {
-      const otp = this.getOtp()
+      const otp = this.getOtp();
 
       if (env('APP_ENV') === 'production') {
         if (sendOtpDto.type === 'EMAIL') {
@@ -28,7 +27,7 @@ class sendOtpService {
         }
       }
 
-      return { otp }
+      return { otp };
     } catch (error) {
       throw new HttpException(ErrorEnum.OTP_NOT_SENT);
     }
