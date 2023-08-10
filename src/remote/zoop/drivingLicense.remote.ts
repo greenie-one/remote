@@ -4,7 +4,7 @@ import { HttpClient } from '../generic/httpClient';
 export class DrivinLicenseVerification {
   static async verifyDrivingLicense(dlNumber: string, dob: string, taskId: string): Promise<unknown> {
     return HttpClient.callApi({
-      url: 'https://test.zoop.one/api/v1/in/identity/dl/advance',
+      url: `${env('ZOOP_BASE_URL')}/api/v1/in/identity/dl/advance`,
       method: 'POST',
       headers: {
         auth: 'false',

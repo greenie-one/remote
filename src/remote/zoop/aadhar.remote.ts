@@ -4,7 +4,7 @@ import { HttpClient } from '../generic/httpClient';
 export class AadhaarVerification {
   static async requestAadharOtp(aadhaarNumber: string, taskId: string): Promise<unknown> {
     return HttpClient.callApi({
-      url: 'https://test.zoop.one/in/identity/okyc/otp/request',
+      url: `${env('ZOOP_BASE_URL')}/in/identity/okyc/otp/request`,
       method: 'POST',
       headers: {
         'app-id': env('ZOOP_ID'),
@@ -24,7 +24,7 @@ export class AadhaarVerification {
 
   static async verifyAadharOtp(requestId: string, otp: string, taskId: string): Promise<unknown> {
     return HttpClient.callApi({
-      url: 'https://test.zoop.one/in/identity/okyc/otp/verify',
+      url: `${env('ZOOP_BASE_URL')}/in/identity/okyc/otp/verify`,
       method: 'POST',
       headers: {
         'app-id': env('ZOOP_ID'),

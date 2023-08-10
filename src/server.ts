@@ -1,4 +1,5 @@
 import { App } from '@/app';
+import '@/utils/mock/index';
 import { ValidateEnv } from '@utils/validateEnv';
 import LocationController from './controllers/location.controller';
 import OtpController from './controllers/otp.controller';

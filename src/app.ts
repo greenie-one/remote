@@ -12,6 +12,7 @@ import helmet from 'helmet';
 import hpp from 'hpp';
 import { env } from './config';
 import { registerControllers } from './controllers';
+import { mockFetch } from './utils/mock';
 
 export class App {
   public app: ReturnType<typeof fastify>;
@@ -28,6 +29,7 @@ export class App {
   }
 
   public async listen() {
+    mockFetch();
     this.app = fastify({
       logger: false,
     });
