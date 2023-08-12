@@ -28,4 +28,7 @@ export class SendPeerLinkDTO {
 
   @IsString()
   public emailVerificationLink: string;
+
+  @IsString()
+  public companyName: string;
 }

@@ -7,14 +7,14 @@ import { Body } from '@/utils/decorators/request';
 import { HttpException } from '@exceptions/httpException';
 
 @Controller('/verification')
-export default class VerificationController {
+export default class WorkExController {
   @Post('/send')
-  async sendWaitlistEmail(@Body() data: SendPeerLinkDTO) {
+  async sendPeerLinks(@Body() data: SendPeerLinkDTO) {
     console.log(data);
     try {
       Promise.all([
-        verfication.sendMail(data.verifierName, data.userName, data.email, data.emailVerificationLink),
-        verfication.requestOnMobile(data.verifierName, data.userName, data.phone, data.mobileVerificationLink),
+        verfication.sendMail(data.verifierName, data.userName, data.companyName, data.email, data.emailVerificationLink),
+        verfication.requestOnMobile(data.verifierName, data.userName, data.companyName, data.phone, data.mobileVerificationLink),
       ]);
       return { message: 'Verification link sent' };
     } catch (error) {
