@@ -13,6 +13,7 @@ class EmailerService {
       });
       return { success: true };
     } catch (error) {
+      console.error(error);
       throw new HttpException(ErrorEnum.EMAIL_NOT_SENT);
     }
   }
