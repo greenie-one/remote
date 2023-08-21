@@ -36,10 +36,7 @@ export class verfication {
         },
       });
     } catch (error) {
-      console.error(error);
       throw new HttpException(ErrorEnum.SERVER_ERROR, error);
     }
-    console.info(`Verification link sent to ${phone}`);
-    return true;
   }
 }
