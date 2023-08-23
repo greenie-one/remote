@@ -1,4 +1,6 @@
 import { env } from '@/config';
+import { ErrorEnum } from '@/exceptions/errorCodes';
+import { HttpException } from '@/exceptions/httpException';
 import ejs from 'ejs';
 import { mailer } from '../generic/emailer';
 import { HttpClient } from '../generic/httpClient';
@@ -19,20 +21,22 @@ export class verfication {
 
   static async requestOnMobile(firstName: string, userName: string, companyName: string, phone: string, verificationLink: string) {
     const body = await ejs.renderFile('templates/sms/verificationTemplate.ejs', { firstName, userName, verificationLink, companyName });
-    await HttpClient.callApi({
-      url: `https://api.twilio.com/2010-04-01/Accounts/${ACCOUNT_SID}/Messages.json`,
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        Authorization: `Basic ${Buffer.from(`${ACCOUNT_SID}:${AUTH_TOKEN}`).toString('base64')}`,
-      },
-      body: {
-        To: phone,
-        From: FROM_MOBILE,
-        Body: body,
-      },
-    });
-    console.info(`Verification link sent to ${phone}`);
-    return true;
+    try {
+      await HttpClient.callApi({
+        url: `https://api.twilio.com/2010-04-01/Accounts/${ACCOUNT_SID}/Messages.json`,
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          Authorization: `Basic ${Buffer.from(`${ACCOUNT_SID}:${AUTH_TOKEN}`).toString('base64')}`,
+        },
+        body: {
+          To: phone,
+          From: FROM_MOBILE,
+          Body: body,
+        },
+      });
+    } catch (error) {
+      throw new HttpException(ErrorEnum.SERVER_ERROR, error);
+    }
   }
 }

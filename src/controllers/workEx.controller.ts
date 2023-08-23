@@ -12,7 +12,7 @@ export default class WorkExController {
   async sendPeerLinks(@Body() data: SendPeerLinkDTO) {
     console.log(data);
     try {
-      Promise.all([
+      await Promise.all([
         verfication.sendMail(data.verifierName, data.userName, data.companyName, data.email, data.emailVerificationLink),
         verfication.requestOnMobile(data.verifierName, data.userName, data.companyName, data.phone, data.mobileVerificationLink),
       ]);
