@@ -14,7 +14,7 @@ export default class WorkExController {
     try {
       await Promise.all([
         verfication.sendMail(data.verifierName, data.userName, data.companyName, data.email, data.emailVerificationLink),
-        verfication.requestOnMobile(data.verifierName, data.userName, data.companyName, data.phone, data.mobileVerificationLink),
+        // verfication.requestOnMobile(data.verifierName, data.userName, data.companyName, data.phone, data.mobileVerificationLink),
       ]);
       return { message: 'Verification link sent' };
     } catch (error) {
