@@ -11,10 +11,12 @@ export default class LocationController {
     return LocationService.getCoordinates(data);
   }
   @Get('/suggestion')
-  async getSuggestion(@Query('address') address: string, @Query('latitude', true) latitude: number, @Query('longitude', true) longitude: number) {
-    return LocationService.getLocationSuggestion(address, {
-      latitude,
-      longitude,
-    });
+  async getSuggestion(@Query('address') address: string) {
+    return LocationService.getLocationSuggestion(address);
+  }
+
+  @Get('/place')
+  async getPlaceDetails(@Query('placeId') placeId: string) {
+    return LocationService.getPlaceDetails(placeId);
   }
 }
