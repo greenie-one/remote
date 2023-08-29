@@ -4,9 +4,12 @@ import { HttpClient } from '../generic/httpClient';
 const SUBSCRIPTION_KEY = env('PLACES_KEY');
 
 interface GetCoordinatesResponse {
-  features: Array<{
+  result: Array<{
     geometry: {
-      coordinates: Array<number>;
+      location: {
+        lat: number;
+        lng: number;
+      };
     };
   }>;
 }

@@ -8,11 +8,11 @@ class locationService {
     const address = data.address;
     try {
       const res = await GeolocationRemote.getCoordinates(address);
-      if (res.features.length === 0) {
+      if (res.result.length === 0) {
         throw new HttpException(ErrorEnum.ADDRESS_NOT_FOUND);
       }
-      const pointCoordinates = res.features[0].geometry.coordinates;
-      return { long: pointCoordinates[0], lat: pointCoordinates[1] };
+      const pointCoordinates = res.result[0].geometry.location;
+      return { long: pointCoordinates.lng, lat: pointCoordinates.lat };
     } catch (error) {
       console.error(error);
       throw new HttpException(ErrorEnum.SERVER_ERROR, error.message);
