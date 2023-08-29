@@ -44,9 +44,11 @@ class locationService {
       const regionMatch = adr_address.match(/<span class="region">(.*?)<\/span>/);
       const postalCodeMatch = adr_address.match(/<span class="postal-code">(.*?)<\/span>/);
       const countryNameMatch = adr_address.match(/<span class="country-name">(.*?)<\/span>/);
+      const streetAddressMatch = adr_address.match(/<span class="street-address">(.*?)<\/span>/);
 
       const address = {
         extendedAddress: extendedAddressMatch ? extendedAddressMatch[1] : '',
+        streetAddress: streetAddressMatch ? streetAddressMatch[1] : '',
         locality: localityMatch ? localityMatch[1] : '',
         region: regionMatch ? regionMatch[1] : '',
         postalCode: postalCodeMatch ? postalCodeMatch[1] : '',

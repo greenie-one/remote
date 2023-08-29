@@ -4,18 +4,30 @@ import { HttpClient } from '../generic/httpClient';
 const SUBSCRIPTION_KEY = env('PLACES_KEY');
 
 interface GetCoordinatesResponse {
-  features: Array<Feature>;
+  features: Array<{
+    geometry: {
+      coordinates: Array<number>;
+    };
+  }>;
 }
 
-interface Feature {
-  geometry: {
-    coordinates: Array<number>;
+interface Suggestion {
+  predictions: Array<{
+    description: string;
+    place_id: string;
+  }>;
+}
+
+interface PlaceDetails {
+  result: {
+    adr_address: string;
+    geometry: {
+      location: {
+        lat: number;
+        lng: number;
+      };
+    };
   };
-}
-
-export interface Location {
-  latitude?: number;
-  longitude?: number;
 }
 
 export class GeolocationRemote {
@@ -30,7 +42,7 @@ export class GeolocationRemote {
   static async getSuggestion(partialAddress: string) {
     const offset = partialAddress.length - 1;
     const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${partialAddress}&offset=${offset}&key=${SUBSCRIPTION_KEY}`;
-    const response = await HttpClient.callApi({
+    const response: Suggestion = await HttpClient.callApi({
       url,
       method: 'GET',
     });
@@ -39,7 +51,7 @@ export class GeolocationRemote {
 
   static async getPlaceDetails(placeId: string) {
     const url = `https://maps.googleapis.com/maps/api/place/details/json?key=${SUBSCRIPTION_KEY}&place_id=${placeId}`;
-    const response = await HttpClient.callApi({
+    const response: PlaceDetails = await HttpClient.callApi({
       url,
       method: 'GET',
     });
