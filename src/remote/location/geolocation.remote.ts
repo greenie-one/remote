@@ -48,7 +48,11 @@ export class GeolocationRemote {
 
   static async getSuggestion(partialAddress: string) {
     const offset = partialAddress.length - 1;
-    const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${partialAddress}&offset=${offset}&key=${SUBSCRIPTION_KEY}`;
+
+    const url =
+      offset > 3
+        ? `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${partialAddress}&offset=${offset}&key=${SUBSCRIPTION_KEY}`
+        : `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${partialAddress}&key=${SUBSCRIPTION_KEY}`;
     const response: Suggestion = await HttpClient.callApi({
       url,
       method: 'GET',
