@@ -5,7 +5,7 @@ import { Query } from '@/utils/decorators/request';
 
 @Controller('/location')
 export default class LocationController {
-  @Get('/coordinates')
+  @Get('/place')
   async getCoordinates(@Query('address', true) address: string, @Query('placeId', true) placeId: string) {
     return LocationService.getCoordinates(address, placeId);
   }
