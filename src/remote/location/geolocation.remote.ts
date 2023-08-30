@@ -3,14 +3,22 @@ import { HttpClient } from '../generic/httpClient';
 
 const SUBSCRIPTION_KEY = env('PLACES_KEY');
 
+export type AddressComponents = Array<{
+  long_name: string;
+  short_name: string;
+  types: Array<string>;
+}>;
+
 interface GetCoordinatesResponse {
   results: Array<{
+    address_components: AddressComponents;
     geometry: {
       location: {
         lat: number;
         lng: number;
       };
     };
+    formatted_address: string;
   }>;
 }
 
