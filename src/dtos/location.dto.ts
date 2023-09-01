@@ -1,6 +1,11 @@
-import { IsString } from 'class-validator';
+import { IsOptional, IsString } from 'class-validator';
 
 export class locationDto {
+  @IsOptional()
   @IsString()
-  public address: string;
+  public address?: string;
+
+  @IsOptional()
+  @IsString()
+  public placeId?: string;
 }

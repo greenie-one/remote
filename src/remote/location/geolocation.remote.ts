@@ -1,42 +1,59 @@
 import { env } from '@/config';
 import { HttpClient } from '../generic/httpClient';
 
-const SUBSCRIPTION_KEY = env('SUBSCRIPTION_KEY');
-const SEARCH_LIMIT = 10;
+const SUBSCRIPTION_KEY = env('PLACES_KEY');
+
+export type AddressComponents = Array<{
+  long_name: string;
+  short_name: string;
+  types: Array<string>;
+}>;
 
 interface GetCoordinatesResponse {
-  features: Array<Feature>;
-}
-interface Feature {
-  geometry: {
-    coordinates: Array<number>;
-  };
+  results: Array<{
+    address_components: AddressComponents;
+    geometry: {
+      location: {
+        lat: number;
+        lng: number;
+      };
+    };
+    formatted_address: string;
+  }>;
 }
 
-export interface Location {
-  latitude?: number;
-  longitude?: number;
+interface Suggestion {
+  predictions: Array<{
+    description: string;
+    place_id: string;
+  }>;
 }
 
 export class GeolocationRemote {
-  static async getCoordinates(address: string): Promise<GetCoordinatesResponse> {
+  static async getCoordinatesFromAddress(address: string): Promise<GetCoordinatesResponse> {
     const response: GetCoordinatesResponse = await HttpClient.callApi({
-      url: `https://atlas.microsoft.com/geocode?api-version=2022-09-01-preview&subscription-key=${SUBSCRIPTION_KEY}&addressLine=${encodeURIComponent(
-        address,
-      )}`,
+      url: `https://maps.googleapis.com/maps/api/geocode/json?key=${SUBSCRIPTION_KEY}&address=${address}`,
       method: 'GET',
     });
     return response;
   }
 
-  static async getSuggestion(partialAddress: string, locationBias: Location) {
-    let url = `https://atlas.microsoft.com/search/fuzzy/json?api-version=1.0&subscription-key=${SUBSCRIPTION_KEY}&query=${encodeURIComponent(
-      partialAddress,
-    )}&typeahead=true&countrySet=IN&limit=${SEARCH_LIMIT}&idxSet=PAD,POI,Str,Xstr,Geo`;
-    if (locationBias.latitude && locationBias.longitude) {
-      url += `&lat=${locationBias.latitude}&lon=${locationBias.longitude}`;
-    }
-    const response = await HttpClient.callApi({
+  static async getCoordinatesFromPlaceID(place_id: string): Promise<GetCoordinatesResponse> {
+    const response: GetCoordinatesResponse = await HttpClient.callApi({
+      url: `https://maps.googleapis.com/maps/api/geocode/json?key=${SUBSCRIPTION_KEY}&place_id=${place_id}`,
+      method: 'GET',
+    });
+    return response;
+  }
+
+  static async getSuggestion(partialAddress: string) {
+    const offset = partialAddress.length - 1;
+
+    const url =
+      offset > 3
+        ? `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${partialAddress}&offset=${offset}&key=${SUBSCRIPTION_KEY}`
+        : `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${partialAddress}&key=${SUBSCRIPTION_KEY}`;
+    const response: Suggestion = await HttpClient.callApi({
       url,
       method: 'GET',
     });
