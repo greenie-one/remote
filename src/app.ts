@@ -13,6 +13,7 @@ import hpp from 'hpp';
 import { env } from './config';
 import { registerControllers } from './controllers';
 import { mockFetch } from './utils/mock';
+import { redisClient } from './redisClient';
 
 export class App {
   public app: ReturnType<typeof fastify>;
@@ -35,6 +36,7 @@ export class App {
     });
     await this.initializeMiddlewares();
     this.initializeErrorHandling();
+    await this.connectToRedis();
 
     registerControllers(this.app, this.controllers);
     await this.app.listen({
@@ -52,6 +54,10 @@ export class App {
 
   public getServer() {
     return this.app;
+  }
+
+  private async connectToRedis() {
+    await redisClient.connect();
   }
 
   private async initializeMiddlewares() {
