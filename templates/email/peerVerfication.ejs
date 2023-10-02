@@ -473,19 +473,21 @@
             >
               Hello <%= firstName %>,
             </h2>
-            <p style="padding-bottom: 20px; padding-top: 10px" class="template-message">
+            <p style="padding-top: 0; padding-bottom: 20px" class="template-subheading">
+              Help <%= userName %> verify his employment
+            </p>
+          </td>
+        </tr>
+        <tr class="table-rows table-body-row">
+          <td class="table-cell table-body-cell">
+            <p style="padding-bottom: 10px; padding-top: 10px" class="template-message">
               Greenie is an online community of verified profiles
             </p>
           </td>
         </tr>
         <tr class="table-rows table-body-row">
           <td class="table-cell table-body-cell">
-            <p class="template-subheading">Help <%= userName %> verify his employment</p>
-          </td>
-        </tr>
-        <tr class="table-rows table-body-row">
-          <td class="table-cell table-body-cell">
-            <p class="template-message">
+            <p style="padding-top: 0" class="template-message">
               Please kindly write a review to his outstanding work that he does in <%= companyName
               %> to help him excel in his career.
             </p>
@@ -501,7 +503,10 @@
             </p>
           </td>
         </tr>
-        <tr class="table-rows table-body-row verification-links-box">
+        <tr
+          style="margin-top: 20px; margin-bottom: 40px"
+          class="table-rows table-body-row verification-links-box"
+        >
           <td class="table-cell table-body-cell">
             <a class="redirect-btn filled-btn" href="<%= verificationLink %>">Get Started</a>
             <!-- <a class="redirect-btn" href="https://greenie.one/"
