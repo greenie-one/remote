@@ -8,7 +8,7 @@ class ValidateMobile implements ValidatorConstraintInterface {
   }
 }
 
-export class SendPeerLinkDTO {
+export class WorkPeerDTO {
   @IsString()
   @IsEmail()
   public email: string;
@@ -31,4 +31,26 @@ export class SendPeerLinkDTO {
 
   @IsString()
   public companyName: string;
+}
+
+export class ResidentialPeerDTO {
+  @IsString()
+  @IsEmail()
+  public email: string;
+
+  @IsString()
+  @Validate(ValidateMobile, { message: 'Invalid mobile number' })
+  public phone: string;
+
+  @IsString()
+  public verifierName: string;
+
+  @IsString()
+  public userName: string;
+
+  @IsString()
+  public mobileVerificationLink: string;
+
+  @IsString()
+  public emailVerificationLink: string;
 }

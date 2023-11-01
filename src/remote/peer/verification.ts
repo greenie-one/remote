@@ -5,11 +5,9 @@ import ejs from 'ejs';
 import { mailer } from '../generic/emailer';
 import { HttpClient } from '../generic/httpClient';
 
-const ACCOUNT_SID = env('TWILIO_ACCOUNT_SID');
-const AUTH_TOKEN = env('TWILIO_AUTH_TOKEN');
-const FROM_MOBILE = env('TWILIO_FROM_MOBILE');
+const TL_API_KEY = env('TL_API_KEY');
 
-export class verfication {
+export class WorkVerfication {
   static async sendMail(firstName: string, userName: string, companyName: string, email: string, verificationLink: string) {
     const html = await ejs.renderFile('templates/email/peerVerfication.ejs', { firstName, userName, verificationLink, companyName });
     return mailer.sendMail({
@@ -20,19 +18,51 @@ export class verfication {
   }
 
   static async requestOnMobile(firstName: string, userName: string, companyName: string, phone: string, verificationLink: string) {
-    const body = await ejs.renderFile('templates/sms/verificationTemplate.ejs', { firstName, userName, verificationLink, companyName });
+    const body = await ejs.renderFile('templates/sms/workVerificationTemplate.ejs', { userName, verificationLink, companyName });
     try {
       await HttpClient.callApi({
-        url: `https://api.twilio.com/2010-04-01/Accounts/${ACCOUNT_SID}/Messages.json`,
+        url: `https://api.textlocal.in/send/`,
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
-          Authorization: `Basic ${Buffer.from(`${ACCOUNT_SID}:${AUTH_TOKEN}`).toString('base64')}`,
         },
         body: {
-          To: phone,
-          From: FROM_MOBILE,
-          Body: body,
+          apikey: TL_API_KEY,
+          numbers: phone,
+          sender: 'GRNTXT',
+          message: body,
+        },
+      });
+    } catch (error) {
+      throw new HttpException(ErrorEnum.SERVER_ERROR, error);
+    }
+  }
+}
+
+export class LocationVerfication {
+  static async sendMail(firstName: string, userName: string, email: string, verificationLink: string) {
+    const html = await ejs.renderFile('templates/email/peerVerfication.ejs', { firstName, userName, verificationLink, companyName: 'Location' });
+    return mailer.sendMail({
+      to: email,
+      subject: 'Verify Location',
+      html,
+    });
+  }
+
+  static async requestOnMobile(firstName: string, userName: string, phone: string, verificationLink: string) {
+    const body = await ejs.renderFile('templates/sms/locationVerificationTemplate.ejs', { userName, verificationLink, firstName });
+    try {
+      await HttpClient.callApi({
+        url: `https://api.textlocal.in/send/`,
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: {
+          apikey: TL_API_KEY,
+          numbers: phone,
+          sender: 'GRNTXT',
+          message: body,
         },
       });
     } catch (error) {
