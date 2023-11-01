@@ -3,24 +3,22 @@ import ejs from 'ejs';
 import { mailer } from '../generic/emailer';
 import { HttpClient } from '../generic/httpClient';
 
-const ACCOUNT_SID = env('TWILIO_ACCOUNT_SID');
-const AUTH_TOKEN = env('TWILIO_AUTH_TOKEN');
-const FROM_MOBILE = env('TWILIO_FROM_MOBILE');
+const TL_API_KEY = env('TL_API_KEY');
 
 export class AuthRemote {
   static async requestOtpMobile(mobileNumber: string, otp: string) {
     const body = await ejs.renderFile('templates/sms/otpTemplate.ejs', { otp });
     await HttpClient.callApi({
-      url: `https://api.twilio.com/2010-04-01/Accounts/${ACCOUNT_SID}/Messages.json`,
+      url: `https://api.textlocal.in/send/`,
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        Authorization: `Basic ${Buffer.from(`${ACCOUNT_SID}:${AUTH_TOKEN}`).toString('base64')}`,
       },
       body: {
-        To: mobileNumber,
-        From: FROM_MOBILE,
-        Body: body,
+        apikey: TL_API_KEY,
+        numbers: mobileNumber,
+        sender: 'OTPGRN',
+        message: body,
       },
     });
     return true;
@@ -33,6 +31,5 @@ export class AuthRemote {
       subject: 'Greenie login',
       html,
     });
-    return true;
   }
 }
