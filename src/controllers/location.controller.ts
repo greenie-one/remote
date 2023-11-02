@@ -18,7 +18,6 @@ export default class LocationController {
 
   @Post('/verification/send')
   async sendPeerLinks(@Body() data: ResidentialPeerDTO) {
-    console.log(data);
     const sendEmail = LocationVerfication.sendMail(data.verifierName, data.userName, data.email, data.emailVerificationLink);
     const sendSms = LocationVerfication.requestOnMobile(data.verifierName, data.userName, data.phone, data.mobileVerificationLink);
     await Promise.all([sendEmail, sendSms]);

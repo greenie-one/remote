@@ -11,7 +11,7 @@ export class WorkVerfication {
   static async sendMail(firstName: string, userName: string, companyName: string, email: string, verificationLink: string) {
     const html = await ejs.renderFile('templates/email/peerVerfication.ejs', { firstName, userName, verificationLink, companyName });
     try {
-      return mailer.sendMail({
+      return await mailer.sendMail({
         to: email,
         subject: 'Verify Work Experience',
         html,
@@ -49,7 +49,7 @@ export class LocationVerfication {
   static async sendMail(firstName: string, userName: string, email: string, verificationLink: string) {
     const html = await ejs.renderFile('templates/email/locationVerificationTemplate.ejs', { firstName, userName, verificationLink });
     try {
-      return mailer.sendMail({
+      return await mailer.sendMail({
         to: email,
         subject: 'Verify Location',
         html,
