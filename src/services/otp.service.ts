@@ -5,33 +5,30 @@ import { HttpException } from '@/exceptions/httpException';
 import { AuthRemote } from '@/remote/auth/otp.remote';
 import { generateRandomNumber } from '@/utils/otp';
 
-class sendOtpService {
-  private getOtp() {
-    if (env('APP_ENV') !== 'production') {
-      return '123456';
-    }
-    return generateRandomNumber().toString();
-  }
-
+class SendOTPService {
   public async sendOtp(sendOtpDto: SendOtpDto) {
     try {
-      const otp = this.getOtp();
-
       if (env('APP_ENV') === 'production') {
+        let requestFunction: (contact: string, otp: string) => Promise<unknown>;
+
         if (sendOtpDto.type === 'EMAIL') {
-          AuthRemote.requestOtpEmail(sendOtpDto.contact, otp).catch(console.error);
+          requestFunction = AuthRemote.requestOtpEmail;
+        } else if (sendOtpDto.type === 'MOBILE') {
+          requestFunction = AuthRemote.requestOtpMobile;
+        } else {
+          throw new Error('Invalid sendOtpDto type');
         }
 
-        if (sendOtpDto.type === 'MOBILE') {
-          AuthRemote.requestOtpMobile(sendOtpDto.contact, otp).catch(console.error);
-        }
+        const otp = generateRandomNumber().toString();
+        await requestFunction(sendOtpDto.contact, otp);
+        return { otp };
       }
 
-      return { otp };
+      return { otp: '123456' };
     } catch (error) {
       throw new HttpException(ErrorEnum.OTP_NOT_SENT);
     }
   }
 }
 
-export const SendOtpService = new sendOtpService();
+export const SendOtpService = new SendOTPService();

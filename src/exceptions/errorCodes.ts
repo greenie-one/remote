@@ -16,6 +16,8 @@ export enum ErrorEnum {
 
   // server error
   SERVER_ERROR,
+  MAIL_NOT_SENT,
+  SMS_NOT_SENT,
 
   // zoop
   ZOOP_ERROR,
@@ -55,6 +57,16 @@ export const ErrorCodes: Record<ErrorEnum, ErrorCodes> = {
   [ErrorEnum.ZOOP_ERROR]: {
     code: 'RM006',
     message: 'Zoop Error: %s',
+    status: 500,
+  },
+  [ErrorEnum.MAIL_NOT_SENT]: {
+    code: 'RM007',
+    message: 'Mail not sent',
+    status: 500,
+  },
+  [ErrorEnum.SMS_NOT_SENT]: {
+    code: 'RM008',
+    message: 'SMS not sent',
     status: 500,
   },
 };
