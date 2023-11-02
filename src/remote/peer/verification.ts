@@ -41,7 +41,7 @@ export class WorkVerfication {
 
 export class LocationVerfication {
   static async sendMail(firstName: string, userName: string, email: string, verificationLink: string) {
-    const html = await ejs.renderFile('templates/email/peerVerfication.ejs', { firstName, userName, verificationLink, companyName: 'Location' });
+    const html = await ejs.renderFile('templates/email/locationVerificationTemplate.ejs', { firstName, userName, verificationLink });
     return mailer.sendMail({
       to: email,
       subject: 'Verify Location',
