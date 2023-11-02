@@ -10,17 +10,22 @@ const TL_API_KEY = env('TL_API_KEY');
 export class WorkVerfication {
   static async sendMail(firstName: string, userName: string, companyName: string, email: string, verificationLink: string) {
     const html = await ejs.renderFile('templates/email/peerVerfication.ejs', { firstName, userName, verificationLink, companyName });
-    return mailer.sendMail({
-      to: email,
-      subject: 'Verify Work Experience',
-      html,
-    });
+    try {
+      return mailer.sendMail({
+        to: email,
+        subject: 'Verify Work Experience',
+        html,
+      });
+    } catch (error) {
+      console.error(error);
+      throw new HttpException(ErrorEnum.MAIL_NOT_SENT);
+    }
   }
 
   static async requestOnMobile(firstName: string, userName: string, companyName: string, phone: string, verificationLink: string) {
     const body = await ejs.renderFile('templates/sms/workVerificationTemplate.ejs', { userName, verificationLink, companyName });
     try {
-      await HttpClient.callApi({
+      return await HttpClient.callApi({
         url: `https://api.textlocal.in/send/`,
         method: 'POST',
         headers: {
@@ -34,7 +39,8 @@ export class WorkVerfication {
         },
       });
     } catch (error) {
-      throw new HttpException(ErrorEnum.SERVER_ERROR, error);
+      console.error(error);
+      throw new HttpException(ErrorEnum.SMS_NOT_SENT);
     }
   }
 }
@@ -42,17 +48,22 @@ export class WorkVerfication {
 export class LocationVerfication {
   static async sendMail(firstName: string, userName: string, email: string, verificationLink: string) {
     const html = await ejs.renderFile('templates/email/locationVerificationTemplate.ejs', { firstName, userName, verificationLink });
-    return mailer.sendMail({
-      to: email,
-      subject: 'Verify Location',
-      html,
-    });
+    try {
+      return mailer.sendMail({
+        to: email,
+        subject: 'Verify Location',
+        html,
+      });
+    } catch (error) {
+      console.error(error);
+      throw new HttpException(ErrorEnum.MAIL_NOT_SENT);
+    }
   }
 
   static async requestOnMobile(firstName: string, userName: string, phone: string, verificationLink: string) {
     const body = await ejs.renderFile('templates/sms/locationVerificationTemplate.ejs', { userName, verificationLink, firstName });
     try {
-      await HttpClient.callApi({
+      return HttpClient.callApi({
         url: `https://api.textlocal.in/send/`,
         method: 'POST',
         headers: {
@@ -66,7 +77,8 @@ export class LocationVerfication {
         },
       });
     } catch (error) {
-      throw new HttpException(ErrorEnum.SERVER_ERROR, error);
+      console.error(error);
+      throw new HttpException(ErrorEnum.SMS_NOT_SENT);
     }
   }
 }

@@ -1,6 +1,4 @@
 import { ResidentialPeerDTO } from '@/dtos/verification.dto';
-import { ErrorEnum } from '@/exceptions/errorCodes';
-import { HttpException } from '@/exceptions/httpException';
 import { LocationVerfication } from '@/remote/peer/verification';
 import { LocationService } from '@/services/location.service';
 import { Controller } from '@/utils/decorators/controller';
@@ -21,15 +19,9 @@ export default class LocationController {
   @Post('/verification/send')
   async sendPeerLinks(@Body() data: ResidentialPeerDTO) {
     console.log(data);
-    try {
-      await Promise.all([
-        LocationVerfication.sendMail(data.verifierName, data.userName, data.email, data.emailVerificationLink),
-        LocationVerfication.requestOnMobile(data.verifierName, data.userName, data.phone, data.mobileVerificationLink),
-      ]);
-      return { message: 'Verification link sent' };
-    } catch (error) {
-      console.error(error);
-      throw new HttpException(ErrorEnum.VERIFICATIONLINK_NOT_SENT);
-    }
+    const sendEmail = LocationVerfication.sendMail(data.verifierName, data.userName, data.email, data.emailVerificationLink);
+    const sendSms = LocationVerfication.requestOnMobile(data.verifierName, data.userName, data.phone, data.mobileVerificationLink);
+    await Promise.all([sendEmail, sendSms]);
+    return { message: 'Verification link sent' };
   }
 }

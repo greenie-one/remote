@@ -6,10 +6,6 @@ import { AuthRemote } from '@/remote/auth/otp.remote';
 import { generateRandomNumber } from '@/utils/otp';
 
 class SendOTPService {
-  private getOtp(): string {
-    return env('APP_ENV') !== 'production' ? '123456' : generateRandomNumber().toString();
-  }
-
   public async sendOtp(sendOtpDto: SendOtpDto) {
     try {
       if (env('APP_ENV') === 'production') {
@@ -23,12 +19,12 @@ class SendOTPService {
           throw new Error('Invalid sendOtpDto type');
         }
 
-        const otp = this.getOtp();
+        const otp = generateRandomNumber().toString();
         await requestFunction(sendOtpDto.contact, otp);
         return { otp };
       }
 
-      return { otp: this.getOtp() };
+      return { otp: '123456' };
     } catch (error) {
       throw new HttpException(ErrorEnum.OTP_NOT_SENT);
     }
