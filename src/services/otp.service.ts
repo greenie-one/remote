@@ -9,7 +9,7 @@ class SendOTPService {
   public async sendOtp(sendOtpDto: SendOtpDto) {
     try {
       if (env('APP_ENV') === 'production') {
-        let requestFunction: (contact: string, otp: string) => Promise<unknown>;
+        let requestFunction: (contact: string, otp: string) => Promise<void>;
 
         if (sendOtpDto.type === 'EMAIL') {
           requestFunction = AuthRemote.requestOtpEmail;
