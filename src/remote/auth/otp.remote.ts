@@ -11,7 +11,7 @@ export class AuthRemote {
   static async requestOtpMobile(mobileNumber: string, otp: string) {
     const body = await ejs.renderFile('templates/sms/otpTemplate.ejs', { otp });
     try {
-      return HttpClient.callApi({
+      await HttpClient.callApi({
         url: `https://api.textlocal.in/send/`,
         method: 'POST',
         headers: {
@@ -33,7 +33,7 @@ export class AuthRemote {
   static async requestOtpEmail(email: string, otp: string) {
     const html = await ejs.renderFile('templates/email/otpTemplate.ejs', { otp });
     try {
-      return mailer.sendMail({
+      await mailer.sendMail({
         to: email,
         subject: 'Greenie login',
         html,
